@@ -12,7 +12,7 @@
 #include "../ProgramOptions.hpp"
 #include "../EnvironmentVariables.hpp"
 
-#include "./Logging.hpp"
+#include "logging.hpp"
 
 #include <boost/leaf/error.hpp>
 
