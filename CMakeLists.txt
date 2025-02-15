@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.20)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-
 project(
     Directories
     VERSION 0.1.0
@@ -15,8 +14,25 @@ project(
 find_package(Boost CONFIG REQUIRED COMPONENTS log program_options)
 
 set(directories_files
-        src/EnvironmentVariables.cpp
+    src/EnvironmentVariables.cpp
 )
+
+find_package(Doxygen)
+
+if (DOXYGEN_FOUND)
+    if (DEFINED BUILD_DOCS)
+        add_custom_target(docs ALL
+            COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM
+        )
+    else ()
+        message(STATUS "Found Doxygen but not compiling documentation")
+    endif()
+else()
+    message(STATUS "Unable to find Doxygen")
+endif ()
 
 if (NOT DEFINED NO_PROGRAM_OPTIONS)
     message(STATUS "adding support for voxels::directories::program_options")
