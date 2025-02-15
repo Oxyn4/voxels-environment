@@ -12,9 +12,7 @@ std::filesystem::path Get(const boost::program_options::variables_map &VariableM
         auto DirectoriesLogger = DirectoriesLoggerTag::get();
     #endif
 
-    boost::leaf::result<std::filesystem::path> ModsHomeResult = GetPathFromProgramOptions(VariableMap, ModsHomeFlag);
-
-    if (ModsHomeResult) {
+    if (boost::leaf::result<std::filesystem::path> ModsHomeResult = GetPathFromProgramOptions(VariableMap, ModsHomeFlag)) {
         std::filesystem::path ModsHome = ModsHomeResult.value();
 
         #ifndef NO_LOG

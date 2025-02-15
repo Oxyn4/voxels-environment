@@ -1,6 +1,6 @@
 #include "voxels/directories/base/State.hpp"
 
-#include "../EnviromentVariables.hpp"
+#include "../EnvironmentVariables.hpp"
 #include "../ProgramOptions.hpp"
 
 #include "Logging.hpp"

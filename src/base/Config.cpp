@@ -1,7 +1,7 @@
 #include "voxels/directories/base/Config.hpp"
 #include "voxels/directories/base/Errors.hpp"
 
-#include "../EnviromentVariables.hpp"
+#include "../EnvironmentVariables.hpp"
 #include "../ProgramOptions.hpp"
 
 #include "Logging.hpp"

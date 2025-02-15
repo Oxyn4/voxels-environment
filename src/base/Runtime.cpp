@@ -1,7 +1,7 @@
 // public interface
 #include "voxels/directories/base/Runtime.hpp"
 
-#include "../EnviromentVariables.hpp"
+#include "../EnvironmentVariables.hpp"
 #include "../ProgramOptions.hpp"
 
 #include <boost/leaf/error.hpp>

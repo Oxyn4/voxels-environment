@@ -9,8 +9,8 @@ project(
 find_package(Boost CONFIG REQUIRED COMPONENTS log program_options)
 
 set(directories_files
-    src/EnviromentVariables.cpp
-    src/ProgramOptions.cpp
+        src/EnvironmentVariables.cpp
+        src/ProgramOptions.cpp
 )
 
 if (NOT NO_BASE_CONFIG)

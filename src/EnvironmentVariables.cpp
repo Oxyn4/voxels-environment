@@ -1,4 +1,4 @@
-#include "EnviromentVariables.hpp"
+#include "EnvironmentVariables.hpp"
 
 boost::leaf::result<std::string> GetEnvironmentVariable(const std::string &EnvironmentVariableName) noexcept {
     const char* Value = std::getenv(EnvironmentVariableName.c_str());
