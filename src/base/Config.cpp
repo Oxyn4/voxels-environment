@@ -12,11 +12,11 @@ namespace Directories::Base::Config
 {
 
     boost::leaf::result<void> Validate(const std::filesystem::path& ConfigHome) noexcept {
-        if (!std::filesystem::exists(ConfigHome)) {
+        if (not std::filesystem::exists(ConfigHome)) {
             return boost::leaf::new_error(DoesNotExist);
         }
 
-        if (std::filesystem::is_directory(ConfigHome)) {
+        if (not std::filesystem::is_directory(ConfigHome)) {
             return boost::leaf::new_error(NotDirectoryError);
         }
 

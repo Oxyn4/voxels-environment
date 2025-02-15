@@ -8,11 +8,11 @@
 namespace Directories::Base::State {
 
 boost::leaf::result<void> Validate(const std::filesystem::path& StateHome) noexcept {
-    if (!std::filesystem::exists(StateHome)) { 
+    if (not std::filesystem::exists(StateHome)) {
         return boost::leaf::new_error(DoesNotExist); 
     } 
 
-    if (std::filesystem::is_directory(StateHome)) {
+    if (not std::filesystem::is_directory(StateHome)) {
         return boost::leaf::new_error(NotDirectoryError);
     }
 

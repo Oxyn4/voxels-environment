@@ -10,13 +10,12 @@
 
 namespace Directories::Base::Runtime
 {
-
     boost::leaf::result<void> Validate(const std::filesystem::path& RuntimeHome) noexcept {
-        if (!std::filesystem::exists(RuntimeHome)) {
+        if (not std::filesystem::exists(RuntimeHome)) {
             return boost::leaf::new_error(DoesNotExist);
         }
 
-        if (std::filesystem::is_directory(RuntimeHome)) {
+        if (not std::filesystem::is_directory(RuntimeHome)) {
             return boost::leaf::new_error(NotDirectoryError);
         }
 

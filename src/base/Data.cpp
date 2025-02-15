@@ -5,16 +5,14 @@
 
 #include <boost/leaf/error.hpp>
 
-
-
 namespace Directories::Base::Data {
 
 boost::leaf::result<void> Validate(const std::filesystem::path& DataHome) noexcept {
-    if (!std::filesystem::exists(DataHome)) { 
+    if (not std::filesystem::exists(DataHome)) {
         return boost::leaf::new_error(DoesNotExist); 
     } 
 
-    if (std::filesystem::is_directory(DataHome)) {
+    if (not std::filesystem::is_directory(DataHome)) {
         return boost::leaf::new_error(NotDirectoryError);
     }
 
