@@ -3,6 +3,7 @@
 #include "../EnviromentVariables.hpp"
 #include "../ProgramOptions.hpp"
 
+#include "Logging.hpp"
 
 
 namespace voxels::directories::base::state {
@@ -46,6 +47,10 @@ boost::leaf::result<std::filesystem::path> GetStateHomeHome() noexcept {
 
 // base XDG specified directories 
 boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept {
+    #ifndef NO_LOG
+        auto DirectoriesLogger = DirectoriesLoggerTag::get();
+    #endif
+
     static boost::leaf::result<std::filesystem::path> StateHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
     if (StateHomeResult) {
@@ -57,12 +62,16 @@ boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_op
     if (StateHomeResult) {
         std::filesystem::path StateHome = StateHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from program options flag: '" << StateHomeFlag << "'";
-        
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found State home: '" << StateHome.string() <<  "' from program options flag: '" << StateHomeFlag << "'";
+        #endif
+
         return StateHome;
     }
 
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from program options flag: '" << StateHomeFlag << "'";
+    #ifndef NO_LOG
+        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine config home from program options flag: '" << StateHomeFlag << "'";
+    #endif
 
 
     StateHomeResult = GetStateHomeFromVoxels();
@@ -70,36 +79,48 @@ boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_op
     if (StateHomeResult) {
         std::filesystem::path StateHome = StateHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'VOXELS_STATE_HOME'";
-        
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'VOXELS_STATE_HOME'";
+        #endif
+
         return StateHome;
     }
-    
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from environment variable: 'VOXELS_STATE_HOME'";
+
+    #ifndef NO_LOG
+        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine state home from environment variable: 'VOXELS_STATE_HOME'";
+    #endif
 
     StateHomeResult = GetStateHomeFromXDG();
 
     if (StateHomeResult) {
         std::filesystem::path StateHome = StateHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'XDG_STATE_HOME'";
-        
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'XDG_STATE_HOME'";
+        #endif
+
         return StateHome;
     }
-    
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from environment variable: 'XDG_STATE_HOME'";
+
+    #ifndef NO_LOG
+        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine state home from environment variable: 'XDG_STATE_HOME'";
+    #endif
 
     StateHomeResult = GetStateHomeHome();
 
     if (StateHomeResult) {
         std::filesystem::path StateHome = StateHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'HOME'";
-        
+        #ifndef NO_LOG
+             BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'HOME'";
+        #endif
+
         return StateHome;
     }
-    
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from environment variable: 'HOME'";
+
+    #ifndef NO_LOG
+        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine state home from environment variable: 'HOME'";
+    #endif
 
     return BOOST_LEAF_NEW_ERROR(NoCandidate);
 }

@@ -3,6 +3,8 @@
 #include "../ProgramOptions.hpp"
 #include "../EnviromentVariables.hpp"
 
+#include "./Logging.hpp"
+
 #include <boost/leaf/error.hpp>
 
 namespace voxels::directories::base::data {
@@ -45,6 +47,10 @@ boost::leaf::result<std::filesystem::path> GetDataHomeHome() noexcept {
 
 // base XDG specified directories 
 boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept {
+    #ifndef NO_LOG
+        auto DirectoriesLogger = DirectoriesLoggerTag::get();
+    #endif
+
     static boost::leaf::result<std::filesystem::path> DataHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
     if (DataHomeResult) {
@@ -56,48 +62,64 @@ boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_op
     if (DataHomeResult) {
         std::filesystem::path DataHome = DataHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from program options flag: '" << DataHomeFlag << "'";
-        
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found Data home: '" << DataHome.string() <<  "' from program options flag: '" << DataHomeFlag << "'";
+        #endif
+
         return DataHome;
     }
 
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from program options flag: '" << DataHomeFlag << "'";
+    #ifndef NO_LOG
+        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine config home from program options flag: '" << DataHomeFlag << "'";
+    #endif
 
     DataHomeResult = GetDataHomeFromVoxels();
 
     if (DataHomeResult) {
         std::filesystem::path DataHome = DataHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'VOXELS_DATA_HOME'";
-        
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'VOXELS_DATA_HOME'";
+        #endif
+
         return DataHome;
     }
-    
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from environment variable: 'VOXELS_DATA_DIR'";
+
+    #ifndef NO_LOG
+        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine data home from environment variable: 'VOXELS_DATA_DIR'";
+    #endif
 
     DataHomeResult = GetDataHomeFromXDG();
 
     if (DataHomeResult) {
         std::filesystem::path DataHome = DataHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'XDG_DATA_HOME'";
-        
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'XDG_DATA_HOME'";
+        #endif
+
         return DataHome;
     }
-    
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from environment variable: 'XDG_DATA_DIR'";
+
+    #ifndef NO_LOG
+        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine data home from environment variable: 'XDG_DATA_DIR'";
+    #endif
 
     DataHomeResult = GetDataHomeHome();
 
     if (DataHomeResult) {
         std::filesystem::path DataHome = DataHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'HOME'";
-        
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'HOME'";
+        #endif
+
         return DataHome;
     }
 
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from environment variable: 'HOME'";
+    #ifndef NO_LOG
+        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine data home from environment variable: 'HOME'";
+    #endif
 
     return BOOST_LEAF_NEW_ERROR(NoCandidate);
 }

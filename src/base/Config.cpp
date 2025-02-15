@@ -1,10 +1,10 @@
 #include "voxels/directories/base/Config.hpp"
+#include "voxels/directories/base/Errors.hpp"
 
 #include "../EnviromentVariables.hpp"
-
 #include "../ProgramOptions.hpp"
 
-#include "voxels/directories/base/Errors.hpp"
+#include "Logging.hpp"
 
 #include <filesystem>
 
@@ -49,6 +49,10 @@ namespace voxels::directories::base::config
 
     // base XDG specified directories
     boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept {
+        #ifndef NO_LOG
+            auto DirectoriesLogger = DirectoriesLoggerTag::get();
+        #endif
+
         static boost::leaf::result<std::filesystem::path> ConfigHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
         if (ConfigHomeResult) {
@@ -60,48 +64,62 @@ namespace voxels::directories::base::config
         if (ConfigHomeResult) {
             std::filesystem::path ConfigHome = ConfigHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from program options flag: '" << ConfigHomeFlag << "'";
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::trace) << "Found config home: '" << ConfigHome.string() <<  "' from program options flag: '" << ConfigHomeFlag << "'";
+            #endif
 
             return ConfigHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from program options flag: '" << ConfigHomeFlag << "'";
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::warning) << "Could not determine config home from program options flag: '" << ConfigHomeFlag << "'";
+        #endif
 
         ConfigHomeResult = GetConfigHomeFromVoxels();
 
         if (ConfigHomeResult) {
             std::filesystem::path ConfigHome = ConfigHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'VOXELS_CONFIG_HOME'";
+                BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'VOXELS_CONFIG_HOME'";
 
             return ConfigHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from environment variable: 'VOXELS_CONFIG_HOME'";
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::warning) << "Could not determine config home from environment variable: 'VOXELS_CONFIG_HOME'";
+        #endif
 
         ConfigHomeResult = GetConfigHomeFromXDG();
 
         if (ConfigHomeResult) {
             std::filesystem::path ConfigHome = ConfigHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'XDG_CONFIG_HOME'";
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'XDG_CONFIG_HOME'";
+            #endif
 
             return ConfigHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from environment variable: 'XDG_CONFIG_HOME'";
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::warning) << "Could not determine config home from environment variable: 'XDG_CONFIG_HOME'";
+        #endif
 
         ConfigHomeResult = GetConfigHomeHome();
 
         if (ConfigHomeResult) {
             std::filesystem::path ConfigHome = ConfigHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'HOME'";
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'HOME'";
+            #endif
 
             return ConfigHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from environment variable: 'HOME'";
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::warning) << "Could not determine config home from environment variable: 'HOME'";
+        #endif
 
         return BOOST_LEAF_NEW_ERROR(NoCandidate);
     }

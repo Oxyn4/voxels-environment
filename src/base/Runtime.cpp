@@ -1,12 +1,12 @@
 // public interface
 #include "voxels/directories/base/Runtime.hpp"
 
-
 #include "../EnviromentVariables.hpp"
-
 #include "../ProgramOptions.hpp"
 
 #include <boost/leaf/error.hpp>
+
+#include "Logging.hpp"
 
 namespace voxels::directories::base::runtime
 {
@@ -41,6 +41,10 @@ namespace voxels::directories::base::runtime
 
     // base XDG specified directories
     boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept {
+        #ifndef NO_LOG
+            auto DirectoriesLogger = DirectoriesLoggerTag::get();
+        #endif
+
         static boost::leaf::result<std::filesystem::path> RuntimeHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
         if (RuntimeHomeResult) {
@@ -52,36 +56,50 @@ namespace voxels::directories::base::runtime
         if (RuntimeHomeResult) {
             std::filesystem::path RuntimeHome = RuntimeHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found Runtime home: '" << RuntimeHome.string() <<  "' from program options flag: '" << RuntimeHomeFlag << "'";
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found Runtime home: '" << RuntimeHome.string() <<  "' from program options flag: '" << RuntimeHomeFlag << "'";
+            #endif
 
             return RuntimeHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from program options flag: '" << RuntimeHomeFlag << "'";
+         #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine config home from program options flag: '" << RuntimeHomeFlag << "'";
+        #endif
+
 
         RuntimeHomeResult = GetRuntimeHomeFromVoxels();
 
         if (RuntimeHomeResult) {
             std::filesystem::path RuntimeHome = RuntimeHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found runtime home: '" << RuntimeHome.string() <<  "' from environment variable: 'VOXELS_RUNTIME_HOME'";
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found runtime home: '" << RuntimeHome.string() <<  "' from environment variable: 'VOXELS_RUNTIME_HOME'";
+            #endif
 
             return RuntimeHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine runtime home from environment variable: 'VOXELS_RUNTIME_HOME'";
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine runtime home from environment variable: 'VOXELS_RUNTIME_HOME'";
+        #endif
+
 
         RuntimeHomeResult = GetRuntimeHomeFromXDG();
 
         if (RuntimeHomeResult) {
             std::filesystem::path RuntimeHome = RuntimeHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found runtime home: '" << RuntimeHome.string() <<  "' from environment variable: 'XDG_RUNTIME_DIR'";
+            #ifndef NO_LOG
+                 BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found runtime home: '" << RuntimeHome.string() <<  "' from environment variable: 'XDG_RUNTIME_DIR'";
+            #endif
 
             return RuntimeHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine runtime home from environment variable: 'XDG_RUNTIME_DIR'";
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine runtime home from environment variable: 'XDG_RUNTIME_DIR'";
+        #endif
 
         return BOOST_LEAF_NEW_ERROR(NoCandidate);
     }
