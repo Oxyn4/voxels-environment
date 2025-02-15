@@ -6,10 +6,10 @@
 
 #include <boost/log/trivial.hpp>
 
-namespace voxels::directories::voxels::logs
+namespace voxels::directories::voxels::accounts
 {
-    const std::string LogsHomeFlag = "certs-home";
+    const std::string AccountsHomeFlag = "accounts-home";
 
     std::filesystem::path
-    Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path& StateHome) noexcept;
+    Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path& DataHome) noexcept;
 }

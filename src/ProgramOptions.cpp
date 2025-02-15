@@ -36,7 +36,7 @@ namespace voxels::directories {
             (voxels::mods::ModsHomeFlag.c_str(), boost::program_options::value<path>(), "Sets the root directory of the mods folder, equivalent to environment variable: VOXELS_MODS_HOME but is higher in priority")
             (voxels::mods_runtime::ModsRuntimeFlag.c_str(), boost::program_options::value<path>(), "Sets the root directory of the mods runtime folder, equivalent to environment variable: VOXELS_RUNTIME_HOME but is higher in priority")
             (voxels::mods_logs::ModsLogsHomeFlag.c_str(), boost::program_options::value<path>(), "Sets the root directory of the mods logging folder, equivalent to environment variable: VOXELS_MODS_LOGS_HOME but is higher in priority")
-            (voxels::logs::LogsHomeFlag.c_str(), boost::program_options::value<path>(), "Sets the root directory of the logging folder, equivalent to environment variable: VOXELS_LOGS_HOME but is higher in priority");
+            (voxels::logs::AccountsHomeFlag.c_str(), boost::program_options::value<path>(), "Sets the root directory of the logging folder, equivalent to environment variable: VOXELS_LOGS_HOME but is higher in priority");
     }
 }
 

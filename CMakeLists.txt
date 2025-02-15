@@ -1,3 +1,9 @@
+cmake_minimum_required(VERSION 3.20)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+
 project(
     Directories
     VERSION 0.1.0
@@ -22,56 +28,70 @@ endif()
 if (NOT DEFINED NO_BASE_CONFIG)
     message(STATUS "adding support for voxels::directories::base::config")
     list(APPEND directories_files
-            src/base/Config.cpp
+            src/base/data.cpp
     )
 endif()
 
 if (NOT DEFINED NO_BASE_DATA)
     message(STATUS "adding support for voxels::directories::base::data")
     list(APPEND directories_files
-            src/base/Data.cpp
+            src/base/data.cpp
     )
 endif()
 
 if (NOT DEFINED NO_BASE_RUNTIME)
     message(STATUS "adding support for voxels::directories::base::data")
     list(APPEND directories_files
-            src/base/Runtime.cpp
+            src/base/runtime.cpp
     )
 endif()
 
 if (NOT DEFINED NO_BASE_CONFIG)
     message(STATUS "adding support for voxels::directories::base::config")
     list(APPEND directories_files
-            src/base/State.cpp
+            src/base/state.cpp
     )
 endif()
 
 if (NOT DEFINED NO_VOXELS_LOGS)
     message(STATUS "adding support for voxels::directories::voxels::logs")
     list(APPEND directories_files
-            src/voxels/Logs.cpp
+            src/voxels/logs.cpp
     )
 endif()
 
 if (NOT DEFINED NO_VOXELS_MODS)
     message(STATUS "adding support for voxels::directories::voxels::mods")
     list(APPEND directories_files
-            src/voxels/Mods.cpp
+            src/voxels/mods.cpp
     )
 endif()
 
 if (NOT DEFINED NO_VOXELS_MODS_RUNTIME)
     message(STATUS "adding support for voxels::directories::voxels::mods_runtime")
     list(APPEND directories_files
-            src/voxels/ModsRuntime.cpp
+            src/voxels/mods_runtime.cpp
     )
 endif()
 
 if (NOT DEFINED NO_VOXELS_MODS_LOGS)
     message(STATUS "adding support for voxels::directories::voxels::mods_logs")
     list(APPEND directories_files
-            src/voxels/ModsLogs.cpp
+            src/voxels/mods_logs.cpp
+    )
+endif()
+
+if (NOT DEFINED NO_VOXELS_CERTS)
+    message(STATUS "adding support for voxels::directories::voxels::certs")
+    list(APPEND directories_files
+            src/voxels/certs.cpp
+    )
+endif()
+
+if (NOT DEFINED NO_VOXELS_ACCOUNTS)
+    message(STATUS "adding support for voxels::directories::voxels::accounts")
+    list(APPEND directories_files
+            src/voxels/accounts.cpp
     )
 endif()
 

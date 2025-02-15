@@ -1,6 +1,7 @@
 # Voxels directories
 
-A library which locates and validates common directories used by voxels servers, clients and various tertiary programs.
+A library for a game im making, voxels, common utility functions for finding key directories, ensuring accurate 
+permissions and users.
 
 # Library feature overview
 
