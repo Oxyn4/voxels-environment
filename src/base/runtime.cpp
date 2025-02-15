@@ -8,7 +8,7 @@
 
 #include <boost/leaf/error.hpp>
 
-#include "Logging.hpp"
+#include "logging.hpp"
 
 using namespace boost::leaf;
 

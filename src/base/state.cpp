@@ -3,7 +3,7 @@
 #include "../EnvironmentVariables.hpp"
 #include "../ProgramOptions.hpp"
 
-#include "Logging.hpp"
+#include "logging.hpp"
 
 using namespace boost::leaf;
 
