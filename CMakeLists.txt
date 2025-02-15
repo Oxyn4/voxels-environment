@@ -82,3 +82,55 @@ if (NOT DEFINED NO_LOG)
 endif()
 
 target_link_libraries(directories Boost::program_options)
+
+if (DEFINED BUILD_EXAMPLES)
+    message(STATUS "Building examples for voxels directories")
+
+    add_executable(directories_examples_base_config
+        examples/base/config.cpp
+    )
+
+    target_link_libraries(directories_examples_base_config directories)
+
+    add_executable(directories_examples_base_state
+            examples/base/state.cpp
+    )
+
+    target_link_libraries(directories_examples_base_state directories)
+
+    add_executable(directories_examples_base_data
+            examples/base/data.cpp
+    )
+
+    target_link_libraries(directories_examples_base_data directories)
+
+    add_executable(directories_examples_base_runtime
+            examples/base/runtime.cpp
+    )
+
+    target_link_libraries(directories_examples_base_runtime directories)
+
+    add_executable(directories_examples_voxels_logs
+            examples/voxels/logs.cpp
+    )
+
+    target_link_libraries(directories_examples_voxels_logs directories)
+
+    add_executable(directories_examples_voxels_mods
+            examples/voxels/mods.cpp
+    )
+
+    target_link_libraries(directories_examples_voxels_mods directories)
+
+    add_executable(directories_examples_voxels_mods_logs
+            examples/voxels/mods_logs.cpp
+    )
+
+    target_link_libraries(directories_examples_voxels_mods_logs directories)
+
+    add_executable(directories_examples_voxels_mods_runtime
+            examples/voxels/mods_runtime.cpp
+    )
+
+    target_link_libraries(directories_examples_voxels_mods_runtime directories)
+endif ()
