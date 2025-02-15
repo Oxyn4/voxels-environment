@@ -10,15 +10,12 @@
 
 #include "Errors.hpp"
 
-namespace Directories {
-    namespace Base {
-        namespace Config {
-            const std::string ConfigHomeFlag = "config-home";
+namespace voxels::directories::base::config
+{
+    const std::string ConfigHomeFlag = "config-home";
 
-            boost::leaf::result<std::filesystem::path> 
-            GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept;
-        }
-    }
+    boost::leaf::result<std::filesystem::path>
+    GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept;
 }
 
 

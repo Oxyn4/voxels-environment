@@ -5,7 +5,7 @@
 
 
 
-namespace Directories::Voxels::ModsRuntime {
+namespace voxels::directories::voxels::mods_runtime {
 
 std::filesystem::path Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path &RuntimeHome) noexcept {
     boost::leaf::result<std::filesystem::path> ModsRuntimeHomeResult = GetPathFromProgramOptions(VariableMap, ModsRuntimeFlag);

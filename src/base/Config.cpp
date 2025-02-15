@@ -8,7 +8,7 @@
 
 #include <filesystem>
 
-namespace Directories::Base::Config
+namespace voxels::directories::base::config
 {
 
     boost::leaf::result<void> Validate(const std::filesystem::path& ConfigHome) noexcept {

@@ -18,17 +18,17 @@ boost::leaf::result<std::filesystem::path> GetPathFromProgramOptions(const boost
     );
 }
 
-namespace Directories {
+namespace voxels::directories {
     void AddProgramOptions(boost::program_options::options_description &OptionsDescription) noexcept {
         OptionsDescription.add_options()
-            (Base::Config::ConfigHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the configuration folder, equivalent to environment variable: VOXELS_CONFIG_HOME but is higher in priority")
-            (Base::State::StateHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the state folder, equivalent to environment variable: VOXELS_STATE_HOME but is higher in priority")
-            (Base::Runtime::RuntimeHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the runtime folder, equivalent to environment variable: VOXELS_RUNTIME_HOME but is higher in priority")
-            (Base::Data::DataHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the data folder, equivalent to environment variable: VOXELS_DATA_HOME but is higher in priority")
-            (Voxels::Mods::ModsHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the mods folder, equivalent to environment variable: VOXELS_MODS_HOME but is higher in priority")
-            (Voxels::ModsRuntime::ModsRuntimeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the mods runtime folder, equivalent to environment variable: VOXELS_RUNTIME_HOME but is higher in priority")
-            (Voxels::ModsLogs::ModsLogsHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the mods logging folder, equivalent to environment variable: VOXELS_MODS_LOGS_HOME but is higher in priority")
-            (Voxels::Logs::LogsHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the logging folder, equivalent to environment variable: VOXELS_LOGS_HOME but is higher in priority");
+            (base::config::ConfigHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the configuration folder, equivalent to environment variable: VOXELS_CONFIG_HOME but is higher in priority")
+            (base::state::StateHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the state folder, equivalent to environment variable: VOXELS_STATE_HOME but is higher in priority")
+            (base::runtime::RuntimeHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the runtime folder, equivalent to environment variable: VOXELS_RUNTIME_HOME but is higher in priority")
+            (base::data::DataHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the data folder, equivalent to environment variable: VOXELS_DATA_HOME but is higher in priority")
+            (voxels::mods::ModsHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the mods folder, equivalent to environment variable: VOXELS_MODS_HOME but is higher in priority")
+            (voxels::mods_runtime::ModsRuntimeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the mods runtime folder, equivalent to environment variable: VOXELS_RUNTIME_HOME but is higher in priority")
+            (voxels::mods_logs::ModsLogsHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the mods logging folder, equivalent to environment variable: VOXELS_MODS_LOGS_HOME but is higher in priority")
+            (voxels::logs::LogsHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the logging folder, equivalent to environment variable: VOXELS_LOGS_HOME but is higher in priority");
     }
 }
 

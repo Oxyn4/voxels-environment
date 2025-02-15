@@ -10,16 +10,13 @@
 
 #include <filesystem>
 
-namespace Directories {
-    namespace Base {
-        namespace Data {
-            const std::string DataHomeFlag = "data-home";
+namespace voxels::directories::base::data
+{
+    const std::string DataHomeFlag = "data-home";
 
-            boost::leaf::result<std::filesystem::path> 
-            GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept; 
+    boost::leaf::result<std::filesystem::path>
+    GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept;
 
-        }
-    }
 }
 
 

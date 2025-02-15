@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Directories {
+namespace voxels::directories {
     enum ValidationError {
         PermissionError,
         DoesNotExist,

@@ -2,7 +2,7 @@
 
 #include <boost/leaf.hpp>
 
-enum EnviromentVariableError {
+enum EnvironmentVariableError {
     NotSet 
 };
 

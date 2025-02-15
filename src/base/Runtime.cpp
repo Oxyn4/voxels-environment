@@ -8,8 +8,9 @@
 
 #include <boost/leaf/error.hpp>
 
-namespace Directories::Base::Runtime
+namespace voxels::directories::base::runtime
 {
+
     boost::leaf::result<void> Validate(const std::filesystem::path& RuntimeHome) noexcept {
         if (not std::filesystem::exists(RuntimeHome)) {
             return boost::leaf::new_error(DoesNotExist);

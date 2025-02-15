@@ -5,7 +5,7 @@
 
 
 
-namespace Directories::Base::State {
+namespace voxels::directories::base::state {
 
 boost::leaf::result<void> Validate(const std::filesystem::path& StateHome) noexcept {
     if (not std::filesystem::exists(StateHome)) {
@@ -70,36 +70,36 @@ boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_op
     if (StateHomeResult) {
         std::filesystem::path StateHome = StateHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from enviroment variable: 'VOXELS_STATE_HOME'";
+        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'VOXELS_STATE_HOME'";
         
         return StateHome;
     }
     
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from enviroment variable: 'VOXELS_STATE_HOME'";
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from environment variable: 'VOXELS_STATE_HOME'";
 
     StateHomeResult = GetStateHomeFromXDG();
 
     if (StateHomeResult) {
         std::filesystem::path StateHome = StateHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from enviroment variable: 'XDG_STATE_HOME'";
+        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'XDG_STATE_HOME'";
         
         return StateHome;
     }
     
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from enviroment variable: 'XDG_STATE_HOME'";
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from environment variable: 'XDG_STATE_HOME'";
 
     StateHomeResult = GetStateHomeHome();
 
     if (StateHomeResult) {
         std::filesystem::path StateHome = StateHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from enviroment variable: 'HOME'";
+        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'HOME'";
         
         return StateHome;
     }
     
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from enviroment variable: 'HOME'";
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from environment variable: 'HOME'";
 
     return BOOST_LEAF_NEW_ERROR(NoCandidate);
 }

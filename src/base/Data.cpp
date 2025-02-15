@@ -5,7 +5,7 @@
 
 #include <boost/leaf/error.hpp>
 
-namespace Directories::Base::Data {
+namespace voxels::directories::base::data {
 
 boost::leaf::result<void> Validate(const std::filesystem::path& DataHome) noexcept {
     if (not std::filesystem::exists(DataHome)) {

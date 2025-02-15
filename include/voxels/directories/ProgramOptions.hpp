@@ -4,6 +4,6 @@
 
 #include <boost/leaf.hpp>
 
-namespace Directories {
+namespace voxels::directories {
     void AddProgramOptions(boost::program_options::options_description &OptionsDescription) noexcept;
 }

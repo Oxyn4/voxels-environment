@@ -2,7 +2,7 @@
 
 #include "../ProgramOptions.hpp"
 
-namespace Directories::Voxels::Logs
+namespace voxels::directories::voxels::logs
 {
 
     std::filesystem::path Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path &StateHome) noexcept {
