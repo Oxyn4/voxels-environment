@@ -77,4 +77,8 @@ target_include_directories(directories PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(directories Boost::log Boost::log_setup Boost::program_options)
+if (NOT DEFINED NO_LOG)
+    target_link_libraries(directories Boost::log)
+endif()
+
+target_link_libraries(directories Boost::program_options)
