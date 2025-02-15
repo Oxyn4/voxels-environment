@@ -10,10 +10,16 @@ find_package(Boost CONFIG REQUIRED COMPONENTS log program_options)
 
 set(directories_files
         src/EnvironmentVariables.cpp
-        src/ProgramOptions.cpp
 )
 
-if (NOT NO_BASE_CONFIG)
+if (NOT DEFINED NO_PROGRAM_OPTIONS)
+    message(STATUS "adding support for voxels::directories::program_options")
+    list(APPEND directories_files
+            src/ProgramOptions.cpp
+    )
+endif()
+
+if (NOT DEFINED NO_BASE_CONFIG)
     message(STATUS "adding support for voxels::directories::base::config")
     list(APPEND directories_files
             src/base/Config.cpp
@@ -81,7 +87,9 @@ if (NOT DEFINED NO_LOG)
     target_link_libraries(directories Boost::log)
 endif()
 
-target_link_libraries(directories Boost::program_options)
+if (NOT DEFINED NO_PROGRAM_OPTIONS)
+    target_link_libraries(directories Boost::program_options)
+endif ()
 
 if (DEFINED BUILD_EXAMPLES)
     message(STATUS "Building examples for voxels directories")

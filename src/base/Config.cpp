@@ -14,7 +14,9 @@ using namespace std::filesystem;
 
 using namespace boost::log::trivial;
 
-using namespace boost::program_options;
+#ifndef NO_PROGRAM_OPTIONS
+    using namespace boost::program_options;
+#endif
 
 namespace voxels::directories::base::config
 {
@@ -55,82 +57,145 @@ namespace voxels::directories::base::config
         return path(HOME + "/.config/voxels/");
     }
 
-    // base XDG specified directories
-    result<path> Get(const variables_map &VariableMap) noexcept {
-        #ifndef NO_LOG
-            auto DirectoriesLogger = DirectoriesLoggerTag::get();
-        #endif
-
-        static result<path> ConfigHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
-
-        if (ConfigHomeResult) {
-            return ConfigHomeResult.value();
-        }
-
-        ConfigHomeResult = GetPathFromProgramOptions(VariableMap, ConfigHomeFlag);
-
-        if (ConfigHomeResult) {
-            path ConfigHome = ConfigHomeResult.value();
-
+    #ifndef NO_PROGRAM_OPTIONS
+        // base XDG specified directories
+        result<path> Get(const variables_map &VariableMap) noexcept {
             #ifndef NO_LOG
-                BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from program options flag: '" << ConfigHomeFlag << "'";
+                auto DirectoriesLogger = DirectoriesLoggerTag::get();
             #endif
 
-            return ConfigHome;
-        }
+            static result<path> ConfigHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
-        #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from program options flag: '" << ConfigHomeFlag << "'";
-        #endif
+            if (ConfigHomeResult) {
+                return ConfigHomeResult.value();
+            }
 
-        ConfigHomeResult = GetConfigHomeFromVoxels();
+            ConfigHomeResult = GetPathFromProgramOptions(VariableMap, ConfigHomeFlag);
 
-        if (ConfigHomeResult) {
-            path ConfigHome = ConfigHomeResult.value();
+            if (ConfigHomeResult) {
+                path ConfigHome = ConfigHomeResult.value();
 
-                BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'VOXELS_CONFIG_HOME'";
+                #ifndef NO_LOG
+                    BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from program options flag: '" << ConfigHomeFlag << "'";
+                #endif
 
-            return ConfigHome;
-        }
-
-        #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'VOXELS_CONFIG_HOME'";
-        #endif
-
-        ConfigHomeResult = GetConfigHomeFromXDG();
-
-        if (ConfigHomeResult) {
-            path ConfigHome = ConfigHomeResult.value();
+                return ConfigHome;
+            }
 
             #ifndef NO_LOG
-                BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'XDG_CONFIG_HOME'";
+                BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from program options flag: '" << ConfigHomeFlag << "'";
             #endif
 
-            return ConfigHome;
-        }
+            ConfigHomeResult = GetConfigHomeFromVoxels();
 
-        #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'XDG_CONFIG_HOME'";
-        #endif
+            if (ConfigHomeResult) {
+                path ConfigHome = ConfigHomeResult.value();
 
-        ConfigHomeResult = GetConfigHomeHome();
+                    BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'VOXELS_CONFIG_HOME'";
 
-        if (ConfigHomeResult) {
-            path ConfigHome = ConfigHomeResult.value();
+                return ConfigHome;
+            }
 
             #ifndef NO_LOG
-                BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'HOME'";
+                BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'VOXELS_CONFIG_HOME'";
             #endif
 
-            return ConfigHome;
+            ConfigHomeResult = GetConfigHomeFromXDG();
+
+            if (ConfigHomeResult) {
+                path ConfigHome = ConfigHomeResult.value();
+
+                #ifndef NO_LOG
+                    BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'XDG_CONFIG_HOME'";
+                #endif
+
+                return ConfigHome;
+            }
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'XDG_CONFIG_HOME'";
+            #endif
+
+            ConfigHomeResult = GetConfigHomeHome();
+
+            if (ConfigHomeResult) {
+                path ConfigHome = ConfigHomeResult.value();
+
+                #ifndef NO_LOG
+                    BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'HOME'";
+                #endif
+
+                return ConfigHome;
+            }
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'HOME'";
+            #endif
+
+            return BOOST_LEAF_NEW_ERROR(NoCandidate);
         }
+    #else
+        // base XDG specified directories
+        result<path> Get() noexcept {
+            #ifndef NO_LOG
+                auto DirectoriesLogger = DirectoriesLoggerTag::get();
+            #endif
 
-        #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'HOME'";
-        #endif
+            static result<path> ConfigHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
-        return BOOST_LEAF_NEW_ERROR(NoCandidate);
-    }
+            if (ConfigHomeResult) {
+                return ConfigHomeResult.value();
+            }
+
+            ConfigHomeResult = GetConfigHomeFromVoxels();
+
+            if (ConfigHomeResult) {
+                path ConfigHome = ConfigHomeResult.value();
+
+                    BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'VOXELS_CONFIG_HOME'";
+
+                return ConfigHome;
+            }
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'VOXELS_CONFIG_HOME'";
+            #endif
+
+            ConfigHomeResult = GetConfigHomeFromXDG();
+
+            if (ConfigHomeResult) {
+                path ConfigHome = ConfigHomeResult.value();
+
+                #ifndef NO_LOG
+                    BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'XDG_CONFIG_HOME'";
+                #endif
+
+                return ConfigHome;
+            }
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'XDG_CONFIG_HOME'";
+            #endif
+
+            ConfigHomeResult = GetConfigHomeHome();
+
+            if (ConfigHomeResult) {
+                path ConfigHome = ConfigHomeResult.value();
+
+                #ifndef NO_LOG
+                    BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'HOME'";
+                #endif
+
+                return ConfigHome;
+            }
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine config home from environment variable: 'HOME'";
+            #endif
+
+            return BOOST_LEAF_NEW_ERROR(NoCandidate);
+        }
+    #endif
 
 
 }
