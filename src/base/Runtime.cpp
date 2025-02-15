@@ -1,23 +1,41 @@
-#include "voxel-directories/base/Runtime.hpp"
+// public interface
+#include "voxels/directories/base/Runtime.hpp"
+
 
 #include "../EnviromentVariables.hpp"
 
 #include "../ProgramOptions.hpp"
 
+#include <boost/leaf/error.hpp>
+
 namespace Directories {
     namespace Base {
         namespace Runtime {
 
-boost::leaf::result<void> Validate(std::filesystem::path& RuntimeHome) noexcept {}
+boost::leaf::result<void> Validate(std::filesystem::path RuntimeHome) noexcept {
+    if (!std::filesystem::exists(RuntimeHome)) { 
+        return boost::leaf::new_error(DoesNotExist); 
+    } 
+
+    if (std::filesystem::is_directory(RuntimeHome)) {
+        return boost::leaf::new_error(NotDirectoryError);
+    }
+
+    return {};
+}
 
 boost::leaf::result<std::filesystem::path> GetRuntimeHomeFromVoxels() noexcept {
     BOOST_LEAF_AUTO(VOXELS_Runtime_HOME, GetEnviromentVariable("VOXELS_RUNTIME_HOME"));
+
+    BOOST_LEAF_CHECK(Validate(std::filesystem::path((VOXELS_Runtime_HOME))));
 
     return std::filesystem::path(VOXELS_Runtime_HOME);
 }
 
 boost::leaf::result<std::filesystem::path> GetRuntimeHomeFromXDG() noexcept {
     BOOST_LEAF_AUTO(XDG_Runtime_HOME, GetEnviromentVariable("XDG_RUNTIME_DIR"));
+    
+    BOOST_LEAF_CHECK(Validate(std::filesystem::path((XDG_Runtime_HOME + "/voxels"))));
 
     return std::filesystem::path(XDG_Runtime_HOME + "/voxels/");
 }

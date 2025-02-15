@@ -1,17 +1,33 @@
-#include "voxel-directories/base/Config.hpp"
+#include "voxels/directories/base/Config.hpp"
 
 #include "../EnviromentVariables.hpp"
 
 #include "../ProgramOptions.hpp"
 
+#include "voxels/directories/base/Errors.hpp"
+
+#include <filesystem>
+
 namespace Directories {
     namespace Base {
         namespace Config {
 
-boost::leaf::result<void> Validate(std::filesystem::path& ConfigHome) noexcept {}
+boost::leaf::result<void> Validate(std::filesystem::path ConfigHome) noexcept {
+    if (!std::filesystem::exists(ConfigHome)) { 
+        return boost::leaf::new_error(DoesNotExist); 
+    } 
+
+    if (std::filesystem::is_directory(ConfigHome)) {
+        return boost::leaf::new_error(NotDirectoryError);
+    }
+
+    return {};
+}
 
 boost::leaf::result<std::filesystem::path> GetConfigHomeFromVoxels() noexcept {
     BOOST_LEAF_AUTO(VOXELS_CONFIG_HOME, GetEnviromentVariable("VOXELS_CONFIG_HOME"));
+
+    BOOST_LEAF_CHECK(Validate(std::filesystem::path(VOXELS_CONFIG_HOME)));
 
     return std::filesystem::path(VOXELS_CONFIG_HOME);
 }
@@ -19,12 +35,16 @@ boost::leaf::result<std::filesystem::path> GetConfigHomeFromVoxels() noexcept {
 boost::leaf::result<std::filesystem::path> GetConfigHomeFromXDG() noexcept {
     BOOST_LEAF_AUTO(XDG_CONFIG_HOME, GetEnviromentVariable("XDG_CONFIG_HOME"));
 
+    BOOST_LEAF_CHECK(Validate(std::filesystem::path(XDG_CONFIG_HOME + "/voxels/")));
+
     return std::filesystem::path(XDG_CONFIG_HOME + "/voxels/");
 }
 
 boost::leaf::result<std::filesystem::path> GetConfigHomeHome() noexcept {
     BOOST_LEAF_AUTO(HOME, GetEnviromentVariable("HOME"));
     
+    BOOST_LEAF_CHECK(Validate(std::filesystem::path(HOME + "/.config/voxels/")));
+
     return std::filesystem::path(HOME + "/.config/voxels/");
 }
 

@@ -1,18 +1,30 @@
-#include "voxel-directories/base/Data.hpp"
+#include "voxels/directories/base/Data.hpp"
 
 #include "../ProgramOptions.hpp"
 #include "../EnviromentVariables.hpp"
+
+#include <boost/leaf/error.hpp>
 
 namespace Directories {
     namespace Base {
         namespace Data {
 
-boost::leaf::result<void> Validate(std::filesystem::path& DataHome) noexcept {
+boost::leaf::result<void> Validate(std::filesystem::path DataHome) noexcept {
+    if (!std::filesystem::exists(DataHome)) { 
+        return boost::leaf::new_error(DoesNotExist); 
+    } 
 
+    if (std::filesystem::is_directory(DataHome)) {
+        return boost::leaf::new_error(NotDirectoryError);
+    }
+
+    return {};
 }
 
 boost::leaf::result<std::filesystem::path> GetDataHomeFromVoxels() noexcept {
     BOOST_LEAF_AUTO(VOXELS_Data_HOME, GetEnviromentVariable("VOXELS_DATA_HOME"));
+
+    BOOST_LEAF_CHECK(Validate(std::filesystem::path(VOXELS_Data_HOME)));
 
     return std::filesystem::path(VOXELS_Data_HOME);
 }
@@ -20,11 +32,15 @@ boost::leaf::result<std::filesystem::path> GetDataHomeFromVoxels() noexcept {
 boost::leaf::result<std::filesystem::path> GetDataHomeFromXDG() noexcept {
     BOOST_LEAF_AUTO(XDG_Data_HOME, GetEnviromentVariable("XDG_DATA_HOME"));
 
+    BOOST_LEAF_CHECK(Validate(std::filesystem::path(XDG_Data_HOME + "/voxels/")));
+    
     return std::filesystem::path(XDG_Data_HOME + "/voxels/");
 }
 
 boost::leaf::result<std::filesystem::path> GetDataHomeHome() noexcept {
     BOOST_LEAF_AUTO(HOME, GetEnviromentVariable("HOME"));
+    
+    BOOST_LEAF_CHECK(Validate(std::filesystem::path(HOME + "/.local/share/voxels")));
     
     return std::filesystem::path(HOME + "/.local/share/voxels");
 }

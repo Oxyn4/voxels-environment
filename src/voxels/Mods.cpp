@@ -1,5 +1,5 @@
 
-#include "voxel-directories/voxels/Mods.hpp"
+#include "voxels/directories/voxels/Mods.hpp"
 
 #include "../ProgramOptions.hpp"
 

@@ -3,6 +3,7 @@
 namespace Directories {
     enum ValidationError {
         PermissionError,
+        DoesNotExist,
         NotDirectoryError
     };
 

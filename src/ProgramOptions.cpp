@@ -1,7 +1,9 @@
 
 // public definitions
-#include "voxel-directories/base/base.hpp"
-#include "voxel-directories/voxels/voxels.hpp"
+#include "voxels/directories/ProgramOptions.hpp"
+
+#include "voxels/directories/voxels/voxels.hpp"
+#include "voxels/directories/base/base.hpp"
 
 // private definitions
 #include "ProgramOptions.hpp"
@@ -17,7 +19,7 @@ boost::leaf::result<std::filesystem::path> GetPathFromProgramOptions(const boost
 }
 
 namespace Directories {
-    void AddBaseDirectoriesProgramOptions(boost::program_options::options_description &OptionsDescription) noexcept {
+    void AddProgramOptions(boost::program_options::options_description &OptionsDescription) noexcept {
         OptionsDescription.add_options()
             (Base::Config::ConfigHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the configuration folder, equivelent to enviroment variable: VOXELS_CONFIG_HOME but is higher in priority")
             (Base::State::StateHomeFlag.c_str(), boost::program_options::value<std::filesystem::path>(), "Sets the root directory of the state folder, equivelent to enviroment variable: VOXELS_STATE_HOME but is higher in priority")

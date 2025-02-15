@@ -14,9 +14,6 @@ namespace Directories {
     namespace Base {
         namespace Runtime {
             const std::string RuntimeHomeFlag = "runtime-home";
-            
-            boost::leaf::result<void> 
-            Validate(const std::filesystem::path& RuntimeHome) noexcept;
 
             boost::leaf::result<std::filesystem::path> 
             GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept;
