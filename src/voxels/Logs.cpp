@@ -12,9 +12,7 @@ namespace voxels::directories::voxels::logs
             auto DirectoriesLogger = DirectoriesLoggerTag::get();
         #endif
 
-        boost::leaf::result<std::filesystem::path> LogsHomeResult = GetPathFromProgramOptions(VariableMap, LogsHomeFlag);
-
-        if (LogsHomeResult) {
+            if (boost::leaf::result<std::filesystem::path> LogsHomeResult = GetPathFromProgramOptions(VariableMap, LogsHomeFlag)) {
             std::filesystem::path LogsHome = LogsHomeResult.value();
 
             #ifndef NO_LOG
