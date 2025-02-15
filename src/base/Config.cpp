@@ -48,7 +48,7 @@ namespace Directories::Base::Config
     }
 
     // base XDG specified directories
-    boost::leaf::result<std::filesystem::path> GetCandiates(const boost::program_options::variables_map &VariableMap) noexcept {
+    boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept {
         static boost::leaf::result<std::filesystem::path> ConfigHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
         if (ConfigHomeResult) {

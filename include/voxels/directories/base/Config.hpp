@@ -16,7 +16,7 @@ namespace Directories {
             const std::string ConfigHomeFlag = "config-home";
 
             boost::leaf::result<std::filesystem::path> 
-            GetCandiates(const boost::program_options::variables_map &VariableMap) noexcept;
+            GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept;
         }
     }
 }
