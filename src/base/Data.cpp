@@ -22,7 +22,7 @@ boost::leaf::result<void> Validate(std::filesystem::path DataHome) noexcept {
 }
 
 boost::leaf::result<std::filesystem::path> GetDataHomeFromVoxels() noexcept {
-    BOOST_LEAF_AUTO(VOXELS_Data_HOME, GetEnvironmentVariable("VOXELS_DATA_HOME"));
+    BOOST_LEAF_AUTO(const VOXELS_Data_HOME, GetEnvironmentVariable("VOXELS_DATA_HOME"));
 
     BOOST_LEAF_CHECK(Validate(std::filesystem::path(VOXELS_Data_HOME)));
 
@@ -30,7 +30,7 @@ boost::leaf::result<std::filesystem::path> GetDataHomeFromVoxels() noexcept {
 }
 
 boost::leaf::result<std::filesystem::path> GetDataHomeFromXDG() noexcept {
-    BOOST_LEAF_AUTO(XDG_Data_HOME, GetEnvironmentVariable("XDG_DATA_HOME"));
+    BOOST_LEAF_AUTO(const XDG_Data_HOME, GetEnvironmentVariable("XDG_DATA_HOME"));
 
     BOOST_LEAF_CHECK(Validate(std::filesystem::path(XDG_Data_HOME + "/voxels/")));
     
@@ -38,7 +38,7 @@ boost::leaf::result<std::filesystem::path> GetDataHomeFromXDG() noexcept {
 }
 
 boost::leaf::result<std::filesystem::path> GetDataHomeHome() noexcept {
-    BOOST_LEAF_AUTO(HOME, GetEnvironmentVariable("HOME"));
+    BOOST_LEAF_AUTO(const HOME, GetEnvironmentVariable("HOME"));
     
     BOOST_LEAF_CHECK(Validate(std::filesystem::path(HOME + "/.local/share/voxels")));
     
