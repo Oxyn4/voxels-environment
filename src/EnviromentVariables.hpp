@@ -6,4 +6,4 @@ enum EnviromentVariableError {
     NotSet 
 };
 
-boost::leaf::result<std::string> GetEnviromentVariable(const std::string &EnviromentVariableName) noexcept; 
+boost::leaf::result<std::string> GetEnvironmentVariable(const std::string &EnvironmentVariableName) noexcept; 

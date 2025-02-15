@@ -25,7 +25,7 @@ boost::leaf::result<void> Validate(std::filesystem::path RuntimeHome) noexcept {
 }
 
 boost::leaf::result<std::filesystem::path> GetRuntimeHomeFromVoxels() noexcept {
-    BOOST_LEAF_AUTO(VOXELS_Runtime_HOME, GetEnviromentVariable("VOXELS_RUNTIME_HOME"));
+    BOOST_LEAF_AUTO(VOXELS_Runtime_HOME, GetEnvironmentVariable("VOXELS_RUNTIME_HOME"));
 
     BOOST_LEAF_CHECK(Validate(std::filesystem::path((VOXELS_Runtime_HOME))));
 
@@ -33,7 +33,7 @@ boost::leaf::result<std::filesystem::path> GetRuntimeHomeFromVoxels() noexcept {
 }
 
 boost::leaf::result<std::filesystem::path> GetRuntimeHomeFromXDG() noexcept {
-    BOOST_LEAF_AUTO(XDG_Runtime_HOME, GetEnviromentVariable("XDG_RUNTIME_DIR"));
+    BOOST_LEAF_AUTO(XDG_Runtime_HOME, GetEnvironmentVariable("XDG_RUNTIME_DIR"));
     
     BOOST_LEAF_CHECK(Validate(std::filesystem::path((XDG_Runtime_HOME + "/voxels"))));
 

@@ -1,9 +1,9 @@
 #include "EnviromentVariables.hpp"
 
-boost::leaf::result<std::string> GetEnviromentVariable(const std::string &EnviromentVariableName) noexcept {
-    const char* Value = std::getenv(EnviromentVariableName.c_str());
+boost::leaf::result<std::string> GetEnvironmentVariable(const std::string &EnvironmentVariableName) noexcept {
+    const char* Value = std::getenv(EnvironmentVariableName.c_str());
 
-    if (Value == NULL) {
+    if (Value == nullptr) {
         return BOOST_LEAF_NEW_ERROR(NotSet);
     } else {
     return std::string(Value);
