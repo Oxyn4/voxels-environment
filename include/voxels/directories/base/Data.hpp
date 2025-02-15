@@ -14,9 +14,11 @@ namespace voxels::directories::base::data
 {
     const std::string DataHomeFlag = "data-home";
 
-    boost::leaf::result<std::filesystem::path>
-    Get(const boost::program_options::variables_map &VariableMap) noexcept;
-
+    #ifndef NO_PROGRAM_OPTIONS
+        boost::leaf::result<std::filesystem::path> Get(const boost::program_options::variables_map &VariableMap) noexcept;
+    #else
+        boost::leaf::result<std::filesystem::path> Get() noexcept;
+    #endif
 }
 
 

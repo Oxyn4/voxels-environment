@@ -53,84 +53,149 @@ result<path> GetDataHomeHome() noexcept {
     return path(HOME + "/.local/share/voxels");
 }
 
-// base XDG specified directories 
-result<path> Get(const variables_map &VariableMap) noexcept {
-    #ifndef NO_LOG
-        auto DirectoriesLogger = DirectoriesLoggerTag::get();
-    #endif
-
-    static result<path> DataHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
-
-    if (DataHomeResult) {
-        return DataHomeResult.value();
-    }
-    
-    DataHomeResult = GetPathFromProgramOptions(VariableMap, DataHomeFlag);
-
-    if (DataHomeResult) {
-        path DataHome = DataHomeResult.value();
-
+#ifndef NO_PROGRAM_OPTIONS
+    // base XDG specified directories
+    result<path> Get(const variables_map &VariableMap) noexcept {
         #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from program options flag: '" << DataHomeFlag << "'";
+            auto DirectoriesLogger = DirectoriesLoggerTag::get();
         #endif
 
-        return DataHome;
-    }
+        static result<path> DataHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
-    #ifndef NO_LOG
-        BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine config home from program options flag: '" << DataHomeFlag << "'";
-    #endif
+        if (DataHomeResult) {
+            return DataHomeResult.value();
+        }
 
-    DataHomeResult = GetDataHomeFromVoxels();
+        DataHomeResult = GetPathFromProgramOptions(VariableMap, DataHomeFlag);
 
-    if (DataHomeResult) {
-        path DataHome = DataHomeResult.value();
+        if (DataHomeResult) {
+            path DataHome = DataHomeResult.value();
 
-        #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'VOXELS_DATA_HOME'";
-        #endif
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from program options flag: '" << DataHomeFlag << "'";
+            #endif
 
-        return DataHome;
-    }
-
-    #ifndef NO_LOG
-        BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'VOXELS_DATA_DIR'";
-    #endif
-
-    DataHomeResult = GetDataHomeFromXDG();
-
-    if (DataHomeResult) {
-        path DataHome = DataHomeResult.value();
+            return DataHome;
+        }
 
         #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'XDG_DATA_HOME'";
+            BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine config home from program options flag: '" << DataHomeFlag << "'";
         #endif
 
-        return DataHome;
-    }
+        DataHomeResult = GetDataHomeFromVoxels();
 
-    #ifndef NO_LOG
-        BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'XDG_DATA_DIR'";
-    #endif
+        if (DataHomeResult) {
+            path DataHome = DataHomeResult.value();
 
-    DataHomeResult = GetDataHomeHome();
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'VOXELS_DATA_HOME'";
+            #endif
 
-    if (DataHomeResult) {
-        path DataHome = DataHomeResult.value();
+            return DataHome;
+        }
 
         #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'HOME'";
+            BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'VOXELS_DATA_DIR'";
         #endif
 
-        return DataHome;
+        DataHomeResult = GetDataHomeFromXDG();
+
+        if (DataHomeResult) {
+            path DataHome = DataHomeResult.value();
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'XDG_DATA_HOME'";
+            #endif
+
+            return DataHome;
+        }
+
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'XDG_DATA_DIR'";
+        #endif
+
+        DataHomeResult = GetDataHomeHome();
+
+        if (DataHomeResult) {
+            path DataHome = DataHomeResult.value();
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'HOME'";
+            #endif
+
+            return DataHome;
+        }
+
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'HOME'";
+        #endif
+
+        return BOOST_LEAF_NEW_ERROR(NoCandidate);
     }
+#else
+    // base XDG specified directories
+    result<path> Get() noexcept {
+        #ifndef NO_LOG
+            auto DirectoriesLogger = DirectoriesLoggerTag::get();
+        #endif
 
-    #ifndef NO_LOG
-        BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'HOME'";
-    #endif
+        static result<path> DataHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
-    return BOOST_LEAF_NEW_ERROR(NoCandidate);
-}
+        if (DataHomeResult) {
+            return DataHomeResult.value();
+        }
+
+        DataHomeResult = GetDataHomeFromVoxels();
+
+        if (DataHomeResult) {
+            path DataHome = DataHomeResult.value();
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'VOXELS_DATA_HOME'";
+            #endif
+
+            return DataHome;
+        }
+
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'VOXELS_DATA_DIR'";
+        #endif
+
+        DataHomeResult = GetDataHomeFromXDG();
+
+        if (DataHomeResult) {
+            path DataHome = DataHomeResult.value();
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'XDG_DATA_HOME'";
+            #endif
+
+            return DataHome;
+        }
+
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'XDG_DATA_DIR'";
+        #endif
+
+        DataHomeResult = GetDataHomeHome();
+
+        if (DataHomeResult) {
+            path DataHome = DataHomeResult.value();
+
+            #ifndef NO_LOG
+                BOOST_LOG_SEV(DirectoriesLogger,  trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'HOME'";
+            #endif
+
+            return DataHome;
+        }
+
+        #ifndef NO_LOG
+            BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine data home from environment variable: 'HOME'";
+        #endif
+
+        return BOOST_LEAF_NEW_ERROR(NoCandidate);
+    }
+#endif
         
         }
 
