@@ -72,36 +72,36 @@ namespace Directories::Base::Config
         if (ConfigHomeResult) {
             std::filesystem::path ConfigHome = ConfigHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from enviroment variable: 'VOXELS_CONFIG_HOME'";
+            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'VOXELS_CONFIG_HOME'";
 
             return ConfigHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from enviroment variable: 'VOXELS_CONFIG_HOME'";
+        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from environment variable: 'VOXELS_CONFIG_HOME'";
 
         ConfigHomeResult = GetConfigHomeFromXDG();
 
         if (ConfigHomeResult) {
             std::filesystem::path ConfigHome = ConfigHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from enviroment variable: 'XDG_CONFIG_HOME'";
+            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'XDG_CONFIG_HOME'";
 
             return ConfigHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from enviroment variable: 'XDG_CONFIG_HOME'";
+        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from environment variable: 'XDG_CONFIG_HOME'";
 
         ConfigHomeResult = GetConfigHomeHome();
 
         if (ConfigHomeResult) {
             std::filesystem::path ConfigHome = ConfigHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from enviroment variable: 'HOME'";
+            BOOST_LOG_TRIVIAL(trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'HOME'";
 
             return ConfigHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from enviroment variable: 'HOME'";
+        BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from environment variable: 'HOME'";
 
         return BOOST_LEAF_NEW_ERROR(NoCandidate);
     }
