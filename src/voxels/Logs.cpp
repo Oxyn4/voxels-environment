@@ -1,7 +1,6 @@
 #include "voxels/directories/voxels/Logs.hpp"
 
 #include "../ProgramOptions.hpp"
-#include "voxels/directories/base/Errors.hpp"
 
 namespace Directories::Voxels::Logs
 {

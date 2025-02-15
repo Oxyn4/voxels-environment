@@ -9,7 +9,7 @@
 
 namespace Directories::Base::Data {
 
-boost::leaf::result<void> Validate(std::filesystem::path DataHome) noexcept {
+boost::leaf::result<void> Validate(const std::filesystem::path& DataHome) noexcept {
     if (!std::filesystem::exists(DataHome)) { 
         return boost::leaf::new_error(DoesNotExist); 
     } 
@@ -70,36 +70,36 @@ boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_op
     if (DataHomeResult) {
         std::filesystem::path DataHome = DataHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from enviroment variable: 'VOXELS_DATA_HOME'";
+        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'VOXELS_DATA_HOME'";
         
         return DataHome;
     }
     
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from enviroment variable: 'VOXELS_DATA_DIR'";
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from environment variable: 'VOXELS_DATA_DIR'";
 
     DataHomeResult = GetDataHomeFromXDG();
 
     if (DataHomeResult) {
         std::filesystem::path DataHome = DataHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from enviroment variable: 'XDG_DATA_HOME'";
+        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'XDG_DATA_HOME'";
         
         return DataHome;
     }
     
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from enviroment variable: 'XDG_DATA_DIR'";
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from environment variable: 'XDG_DATA_DIR'";
 
     DataHomeResult = GetDataHomeHome();
 
     if (DataHomeResult) {
         std::filesystem::path DataHome = DataHomeResult.value();
 
-        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from enviroment variable: 'HOME'";
+        BOOST_LOG_TRIVIAL(trace) << "Found Data home: '" << DataHome.string() <<  "' from environment variable: 'HOME'";
         
         return DataHome;
     }
 
-    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from enviroment variable: 'HOME'";
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine data home from environment variable: 'HOME'";
 
     return BOOST_LEAF_NEW_ERROR(NoCandidate);
 }

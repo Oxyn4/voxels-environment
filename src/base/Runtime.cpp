@@ -11,7 +11,7 @@
 namespace Directories::Base::Runtime
 {
 
-    boost::leaf::result<void> Validate(std::filesystem::path RuntimeHome) noexcept {
+    boost::leaf::result<void> Validate(const std::filesystem::path& RuntimeHome) noexcept {
         if (!std::filesystem::exists(RuntimeHome)) {
             return boost::leaf::new_error(DoesNotExist);
         }
@@ -64,24 +64,24 @@ namespace Directories::Base::Runtime
         if (RuntimeHomeResult) {
             std::filesystem::path RuntimeHome = RuntimeHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found runtime home: '" << RuntimeHome.string() <<  "' from enviroment variable: 'VOXELS_RUNTIME_HOME'";
+            BOOST_LOG_TRIVIAL(trace) << "Found runtime home: '" << RuntimeHome.string() <<  "' from environment variable: 'VOXELS_RUNTIME_HOME'";
 
             return RuntimeHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine runtime home from enviroment variable: 'VOXELS_RUNTIME_HOME'";
+        BOOST_LOG_TRIVIAL(warning) << "Could not determine runtime home from environment variable: 'VOXELS_RUNTIME_HOME'";
 
         RuntimeHomeResult = GetRuntimeHomeFromXDG();
 
         if (RuntimeHomeResult) {
             std::filesystem::path RuntimeHome = RuntimeHomeResult.value();
 
-            BOOST_LOG_TRIVIAL(trace) << "Found runtime home: '" << RuntimeHome.string() <<  "' from enviroment variable: 'XDG_RUNTIME_DIR'";
+            BOOST_LOG_TRIVIAL(trace) << "Found runtime home: '" << RuntimeHome.string() <<  "' from environment variable: 'XDG_RUNTIME_DIR'";
 
             return RuntimeHome;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "Could not determine runtime home from enviroment variable: 'XDG_RUNTIME_DIR'";
+        BOOST_LOG_TRIVIAL(warning) << "Could not determine runtime home from environment variable: 'XDG_RUNTIME_DIR'";
 
         return BOOST_LEAF_NEW_ERROR(NoCandidate);
     }
