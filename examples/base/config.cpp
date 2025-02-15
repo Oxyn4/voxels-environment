@@ -13,5 +13,5 @@ int main(const int ac, char** av)
 
     store(parse_command_line(ac, av, OptionsDescription), VariableMap);
 
-    boost::leaf::result<std::filesystem::path> ConfigHomeResult = base::config::GetCandidates(VariableMap);
+    boost::leaf::result<std::filesystem::path> ConfigHomeResult = base::config::Get(VariableMap);
 }

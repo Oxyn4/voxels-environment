@@ -15,7 +15,7 @@ namespace voxels::directories::base::state
     const std::string StateHomeFlag = "state-home";
             
     boost::leaf::result<std::filesystem::path>
-    GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept;
+    Get(const boost::program_options::variables_map &VariableMap) noexcept;
 
 
 }

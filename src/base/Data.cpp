@@ -54,7 +54,7 @@ result<path> GetDataHomeHome() noexcept {
 }
 
 // base XDG specified directories 
-result<path> GetCandidates(const variables_map &VariableMap) noexcept {
+result<path> Get(const variables_map &VariableMap) noexcept {
     #ifndef NO_LOG
         auto DirectoriesLogger = DirectoriesLoggerTag::get();
     #endif

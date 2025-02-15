@@ -15,5 +15,5 @@ namespace voxels::directories::base::runtime
     const std::string RuntimeHomeFlag = "runtime-home";
 
     boost::leaf::result<std::filesystem::path>
-    GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept;
+    Get(const boost::program_options::variables_map &VariableMap) noexcept;
 }

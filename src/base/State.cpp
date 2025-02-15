@@ -53,7 +53,7 @@ result<path> GetStateHomeHome() noexcept {
 
 
 // base XDG specified directories 
-result<path> GetCandidates(const variables_map &VariableMap) noexcept {
+result<path> Get(const variables_map &VariableMap) noexcept {
     #ifndef NO_LOG
         auto DirectoriesLogger = DirectoriesLoggerTag::get();
     #endif
@@ -70,14 +70,14 @@ result<path> GetCandidates(const variables_map &VariableMap) noexcept {
         path StateHome = StateHomeResult.value();
 
         #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found State home: '" << StateHome.string() <<  "' from program options flag: '" << StateHomeFlag << "'";
+            BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found State home: '" << StateHome.string() <<  "' from program options flag: '" << StateHomeFlag << "'";
         #endif
 
         return StateHome;
     }
 
     #ifndef NO_LOG
-        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine config home from program options flag: '" << StateHomeFlag << "'";
+        BOOST_LOG_SEV(DirectoriesLogger,  warning) << "Could not determine config home from program options flag: '" << StateHomeFlag << "'";
     #endif
 
 
@@ -87,14 +87,14 @@ result<path> GetCandidates(const variables_map &VariableMap) noexcept {
         path StateHome = StateHomeResult.value();
 
         #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'VOXELS_STATE_HOME'";
+            BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'VOXELS_STATE_HOME'";
         #endif
 
         return StateHome;
     }
 
     #ifndef NO_LOG
-        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine state home from environment variable: 'VOXELS_STATE_HOME'";
+        BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine state home from environment variable: 'VOXELS_STATE_HOME'";
     #endif
 
     StateHomeResult = GetStateHomeFromXDG();
@@ -103,14 +103,14 @@ result<path> GetCandidates(const variables_map &VariableMap) noexcept {
         path StateHome = StateHomeResult.value();
 
         #ifndef NO_LOG
-            BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'XDG_STATE_HOME'";
+            BOOST_LOG_SEV(DirectoriesLogger, trace) << "Found State home: '" << StateHome.string() <<  "' from environment variable: 'XDG_STATE_HOME'";
         #endif
 
         return StateHome;
     }
 
     #ifndef NO_LOG
-        BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine state home from environment variable: 'XDG_STATE_HOME'";
+        BOOST_LOG_SEV(DirectoriesLogger, warning) << "Could not determine state home from environment variable: 'XDG_STATE_HOME'";
     #endif
 
     StateHomeResult = GetStateHomeHome();

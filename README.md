@@ -4,6 +4,8 @@ A library which locates and validates common directories used by voxels servers,
 
 # Library feature overview
 
+Building the directories relies on the 'BUILD_EXAMPLES' cmake variable being defined.
+
 ## XDG base directories
 
 voxels directories are based on [Freedesktop base directories](https://specifications.freedesktop.org/basedir-spec/latest/)
@@ -16,6 +18,13 @@ voxels directories are based on [Freedesktop base directories](https://specifica
 | state home     | examples/base/state.cpp   |
 
 ## Voxels specific directories
+
+| Directory name    | example library usage            |
+|-------------------|----------------------------------|
+| mods home         | examples/voxels/mods.cpp         |
+| mods logs home    | examples/voxels/mods_logs.cpp    |
+| logs home         | examples/voxels/logs.cpp         |
+| mods runtime home | examples/voxels/mods_runtime.cpp |
 
 # Building 
 

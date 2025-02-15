@@ -12,7 +12,7 @@ int main(const int ac, char** av)
 
     store(parse_command_line(ac, av, OptionsDescription), VariableMap);
 
-    boost::leaf::result<std::filesystem::path> RuntimeHomeResult = voxels::directories::base::runtime::GetCandidates(VariableMap);
+    boost::leaf::result<std::filesystem::path> RuntimeHomeResult = voxels::directories::base::runtime::Get(VariableMap);
 
     boost::leaf::result<std::filesystem::path> ModsRuntimeHomeResult = voxels::directories::voxels::mods_runtime::Get(VariableMap, RuntimeHomeResult.value());
 
