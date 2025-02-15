@@ -1,0 +1,89 @@
+#include "voxel-directories/base/State.hpp"
+
+#include "../EnviromentVariables.hpp"
+#include "../ProgramOptions.hpp"
+
+namespace Directories {
+    namespace Base {
+        namespace State {
+
+boost::leaf::result<std::filesystem::path> GetStateHomeFromVoxels() noexcept {
+    BOOST_LEAF_AUTO(VOXELS_State_HOME, GetEnviromentVariable("VOXELS_STATE_HOME"));
+
+    return std::filesystem::path(VOXELS_State_HOME);
+}
+
+boost::leaf::result<std::filesystem::path> GetStateHomeFromXDG() noexcept {
+    BOOST_LEAF_AUTO(XDG_State_HOME, GetEnviromentVariable("XDG_STATE_HOME"));
+
+    return std::filesystem::path(XDG_State_HOME + "/voxels/");
+}
+
+boost::leaf::result<std::filesystem::path> GetStateHomeHome() noexcept {
+    BOOST_LEAF_AUTO(HOME, GetEnviromentVariable("HOME"));
+    
+    return std::filesystem::path(HOME + "/.local/state/voxels/");
+}
+
+
+// base XDG specified directories 
+boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept {
+    static boost::leaf::result<std::filesystem::path> StateHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
+
+    if (StateHomeResult) {
+        return StateHomeResult.value();
+    }
+
+    StateHomeResult = GetPathFromProgramOptions(VariableMap, StateHomeFlag);
+
+    if (StateHomeResult) {
+        std::filesystem::path StateHome = StateHomeResult.value();
+
+        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from program options flag: '" << StateHomeFlag << "'";
+        
+        return StateHome;
+    }
+
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine config home from program options flag: '" << StateHomeFlag << "'";
+
+
+    StateHomeResult = GetStateHomeFromVoxels();
+
+    if (StateHomeResult) {
+        std::filesystem::path StateHome = StateHomeResult.value();
+
+        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from enviroment variable: 'VOXELS_STATE_HOME'";
+        
+        return StateHome;
+    }
+    
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from enviroment variable: 'VOXELS_STATE_HOME'";
+
+    StateHomeResult = GetStateHomeFromXDG();
+
+    if (StateHomeResult) {
+        std::filesystem::path StateHome = StateHomeResult.value();
+
+        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from enviroment variable: 'XDG_STATE_HOME'";
+        
+        return StateHome;
+    }
+    
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from enviroment variable: 'XDG_STATE_HOME'";
+
+    StateHomeResult = GetStateHomeHome();
+
+    if (StateHomeResult) {
+        std::filesystem::path StateHome = StateHomeResult.value();
+
+        BOOST_LOG_TRIVIAL(trace) << "Found State home: '" << StateHome.string() <<  "' from enviroment variable: 'HOME'";
+        
+        return StateHome;
+    }
+    
+    BOOST_LOG_TRIVIAL(warning) << "Could not determine state home from enviroment variable: 'HOME'";
+
+    return BOOST_LEAF_NEW_ERROR(NoCandidate);
+}
+        
+}}}
