@@ -54,6 +54,11 @@ CMakeUserPresets.json
 *_LOCAL_*.txt
 *_REMOTE_*.txt
 
+### Doxygen ###
+html
+latex
+
+cmake-build-release/
 cmake-build-debug/
 
 .idea/
