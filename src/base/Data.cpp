@@ -5,9 +5,9 @@
 
 #include <boost/leaf/error.hpp>
 
-namespace Directories {
-    namespace Base {
-        namespace Data {
+
+
+namespace Directories::Base::Data {
 
 boost::leaf::result<void> Validate(std::filesystem::path DataHome) noexcept {
     if (!std::filesystem::exists(DataHome)) { 
@@ -105,5 +105,5 @@ boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_op
 }
         
         }
-    }
-}
+
+

@@ -3,9 +3,9 @@
 
 #include "../ProgramOptions.hpp"
 
-namespace Directories {
-    namespace Voxels {
-        namespace Mods { 
+
+
+namespace Directories::Voxels::Mods {
 
 std::filesystem::path Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path &DataHome) noexcept {
     boost::leaf::result<std::filesystem::path> ModsHomeResult = GetPathFromProgramOptions(VariableMap, ModsHomeFlag);
@@ -31,4 +31,4 @@ std::filesystem::path Get(const boost::program_options::variables_map &VariableM
 
 
 
-}}} 
+}

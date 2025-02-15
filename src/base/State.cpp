@@ -3,12 +3,11 @@
 #include "../EnviromentVariables.hpp"
 #include "../ProgramOptions.hpp"
 
-namespace Directories {
-    namespace Base {
-        namespace State {
 
 
-boost::leaf::result<void> Validate(const std::filesystem::path StateHome) noexcept {
+namespace Directories::Base::State {
+
+boost::leaf::result<void> Validate(const std::filesystem::path& StateHome) noexcept {
     if (!std::filesystem::exists(StateHome)) { 
         return boost::leaf::new_error(DoesNotExist); 
     } 
@@ -105,4 +104,4 @@ boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_op
     return BOOST_LEAF_NEW_ERROR(NoCandidate);
 }
         
-}}}
+}
