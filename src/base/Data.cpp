@@ -29,7 +29,7 @@ namespace voxels::directories::base::data {
 result<void> Validate(const path& DataHome) noexcept {
     if (not exists(DataHome)) {
         return new_error(DoesNotExist);
-    } 
+    }
 
     if (not is_directory(DataHome)) {
         return new_error(NotDirectoryError);
@@ -50,15 +50,15 @@ result<path> GetDataHomeFromXDG() noexcept {
     BOOST_LEAF_AUTO(const XDG_Data_HOME, GetEnvironmentVariable("XDG_DATA_HOME"));
 
     BOOST_LEAF_CHECK(Validate(path(XDG_Data_HOME + "/voxels/")));
-    
+
     return path(XDG_Data_HOME + "/voxels/");
 }
 
 result<path> GetDataHomeHome() noexcept {
     BOOST_LEAF_AUTO(const HOME, GetEnvironmentVariable("HOME"));
-    
+
     BOOST_LEAF_CHECK(Validate(path(HOME + "/.local/share/voxels")));
-    
+
     return path(HOME + "/.local/share/voxels");
 }
 
@@ -205,7 +205,7 @@ result<path> GetDataHomeHome() noexcept {
         return BOOST_LEAF_NEW_ERROR(NoCandidate);
     }
 #endif
-        
+
         }
 
 
