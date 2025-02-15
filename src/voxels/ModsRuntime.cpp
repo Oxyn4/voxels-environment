@@ -5,17 +5,25 @@
 
 #include "Logging.hpp"
 
+using namespace boost::leaf;
+
+using namespace std::filesystem;
+
+using namespace boost::log::trivial;
+
+using namespace boost::program_options;
+
 namespace voxels::directories::voxels::mods_runtime {
 
-std::filesystem::path Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path &RuntimeHome) noexcept {
+path Get(const variables_map &VariableMap, const path &RuntimeHome) noexcept {
     #ifndef NO_LOG
         auto DirectoriesLogger = DirectoriesLoggerTag::get();
     #endif
 
-    boost::leaf::result<std::filesystem::path> ModsRuntimeHomeResult = GetPathFromProgramOptions(VariableMap, ModsRuntimeFlag);
+    result<path> ModsRuntimeHomeResult = GetPathFromProgramOptions(VariableMap, ModsRuntimeFlag);
 
     if (ModsRuntimeHomeResult) {
-        std::filesystem::path ModsRuntimeHome = ModsRuntimeHomeResult.value();
+        path ModsRuntimeHome = ModsRuntimeHomeResult.value();
 
         #ifndef NO_LOG
             BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found ModsRuntime home: '" << ModsRuntimeHome.string() <<  "' from program option: '" << ModsRuntimeFlag <<  "'";
@@ -28,7 +36,7 @@ std::filesystem::path Get(const boost::program_options::variables_map &VariableM
         BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine ModsRuntime home from program options flag: '" << ModsRuntimeFlag << "'";
     #endif
 
-    std::filesystem::path RuntimeHomeCopy = RuntimeHome;
+    path RuntimeHomeCopy = RuntimeHome;
 
     RuntimeHomeCopy.append("mods/");
 

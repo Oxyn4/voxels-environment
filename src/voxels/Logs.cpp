@@ -4,16 +4,24 @@
 
 #include "Logging.hpp"
 
+using namespace boost::leaf;
+
+using namespace std::filesystem;
+
+using namespace boost::log::trivial;
+
+using namespace boost::program_options;
+
 namespace voxels::directories::voxels::logs
 {
 
-    std::filesystem::path Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path &StateHome) noexcept {
+    path Get(const variables_map &VariableMap, const path &StateHome) noexcept {
         #ifndef NO_LOG
             auto DirectoriesLogger = DirectoriesLoggerTag::get();
         #endif
 
-            if (boost::leaf::result<std::filesystem::path> LogsHomeResult = GetPathFromProgramOptions(VariableMap, LogsHomeFlag)) {
-            std::filesystem::path LogsHome = LogsHomeResult.value();
+            if (result<path> LogsHomeResult = GetPathFromProgramOptions(VariableMap, LogsHomeFlag)) {
+            path LogsHome = LogsHomeResult.value();
 
             #ifndef NO_LOG
                  BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found Logs home: '" << LogsHome.string() <<  "' from program option: '" << LogsHomeFlag <<  "'";
@@ -26,7 +34,7 @@ namespace voxels::directories::voxels::logs
              BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine Logs home from program options flag: '" << LogsHomeFlag << "'";
         #endif
 
-        std::filesystem::path StateHomeCopy = StateHome;
+        path StateHomeCopy = StateHome;
 
         StateHomeCopy.append("logs/");
 

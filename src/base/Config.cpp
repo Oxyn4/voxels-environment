@@ -8,52 +8,60 @@
 
 #include <filesystem>
 
+using namespace boost::leaf;
+
+using namespace std::filesystem;
+
+using namespace boost::log::trivial;
+
+using namespace boost::program_options;
+
 namespace voxels::directories::base::config
 {
 
-    boost::leaf::result<void> Validate(const std::filesystem::path& ConfigHome) noexcept {
-        if (not std::filesystem::exists(ConfigHome)) {
-            return boost::leaf::new_error(DoesNotExist);
+    result<void> Validate(const path& ConfigHome) noexcept {
+        if (not exists(ConfigHome)) {
+            return new_error(DoesNotExist);
         }
 
-        if (not std::filesystem::is_directory(ConfigHome)) {
-            return boost::leaf::new_error(NotDirectoryError);
+        if (not is_directory(ConfigHome)) {
+            return new_error(NotDirectoryError);
         }
 
         return {};
     }
 
-    boost::leaf::result<std::filesystem::path> GetConfigHomeFromVoxels() noexcept {
+    result<path> GetConfigHomeFromVoxels() noexcept {
         BOOST_LEAF_AUTO(const VOXELS_CONFIG_HOME, GetEnvironmentVariable("VOXELS_CONFIG_HOME"));
 
         BOOST_LEAF_CHECK(Validate(std::filesystem::path(VOXELS_CONFIG_HOME)));
 
-        return std::filesystem::path(VOXELS_CONFIG_HOME);
+        return path(VOXELS_CONFIG_HOME);
     }
 
-    boost::leaf::result<std::filesystem::path> GetConfigHomeFromXDG() noexcept {
+    result<path> GetConfigHomeFromXDG() noexcept {
         BOOST_LEAF_AUTO(const XDG_CONFIG_HOME, GetEnvironmentVariable("XDG_CONFIG_HOME"));
 
         BOOST_LEAF_CHECK(Validate(std::filesystem::path(XDG_CONFIG_HOME + "/voxels/")));
 
-        return std::filesystem::path(XDG_CONFIG_HOME + "/voxels/");
+        return path(XDG_CONFIG_HOME + "/voxels/");
     }
 
-    boost::leaf::result<std::filesystem::path> GetConfigHomeHome() noexcept {
+    result<path> GetConfigHomeHome() noexcept {
         BOOST_LEAF_AUTO(const HOME, GetEnvironmentVariable("HOME"));
 
         BOOST_LEAF_CHECK(Validate(std::filesystem::path(HOME + "/.config/voxels/")));
 
-        return std::filesystem::path(HOME + "/.config/voxels/");
+        return path(HOME + "/.config/voxels/");
     }
 
     // base XDG specified directories
-    boost::leaf::result<std::filesystem::path> GetCandidates(const boost::program_options::variables_map &VariableMap) noexcept {
+    result<path> GetCandidates(const variables_map &VariableMap) noexcept {
         #ifndef NO_LOG
             auto DirectoriesLogger = DirectoriesLoggerTag::get();
         #endif
 
-        static boost::leaf::result<std::filesystem::path> ConfigHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
+        static result<path> ConfigHomeResult = BOOST_LEAF_NEW_ERROR(NotSet);
 
         if (ConfigHomeResult) {
             return ConfigHomeResult.value();
@@ -62,7 +70,7 @@ namespace voxels::directories::base::config
         ConfigHomeResult = GetPathFromProgramOptions(VariableMap, ConfigHomeFlag);
 
         if (ConfigHomeResult) {
-            std::filesystem::path ConfigHome = ConfigHomeResult.value();
+            path ConfigHome = ConfigHomeResult.value();
 
             #ifndef NO_LOG
                 BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::trace) << "Found config home: '" << ConfigHome.string() <<  "' from program options flag: '" << ConfigHomeFlag << "'";
@@ -78,7 +86,7 @@ namespace voxels::directories::base::config
         ConfigHomeResult = GetConfigHomeFromVoxels();
 
         if (ConfigHomeResult) {
-            std::filesystem::path ConfigHome = ConfigHomeResult.value();
+            path ConfigHome = ConfigHomeResult.value();
 
                 BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'VOXELS_CONFIG_HOME'";
 
@@ -92,7 +100,7 @@ namespace voxels::directories::base::config
         ConfigHomeResult = GetConfigHomeFromXDG();
 
         if (ConfigHomeResult) {
-            std::filesystem::path ConfigHome = ConfigHomeResult.value();
+            path ConfigHome = ConfigHomeResult.value();
 
             #ifndef NO_LOG
                 BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'XDG_CONFIG_HOME'";
@@ -108,7 +116,7 @@ namespace voxels::directories::base::config
         ConfigHomeResult = GetConfigHomeHome();
 
         if (ConfigHomeResult) {
-            std::filesystem::path ConfigHome = ConfigHomeResult.value();
+            path ConfigHome = ConfigHomeResult.value();
 
             #ifndef NO_LOG
                 BOOST_LOG_SEV(DirectoriesLogger, boost::log::trivial::trace) << "Found config home: '" << ConfigHome.string() <<  "' from environment variable: 'HOME'";

@@ -5,15 +5,23 @@
 
 #include "Logging.hpp"
 
+using namespace boost::leaf;
+
+using namespace std::filesystem;
+
+using namespace boost::log::trivial;
+
+using namespace boost::program_options;
+
 namespace voxels::directories::voxels::mods {
 
-std::filesystem::path Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path &DataHome) noexcept {
+path Get(const variables_map &VariableMap, const path &DataHome) noexcept {
     #ifndef NO_LOG
         auto DirectoriesLogger = DirectoriesLoggerTag::get();
     #endif
 
-    if (boost::leaf::result<std::filesystem::path> ModsHomeResult = GetPathFromProgramOptions(VariableMap, ModsHomeFlag)) {
-        std::filesystem::path ModsHome = ModsHomeResult.value();
+    if (result<path> ModsHomeResult = GetPathFromProgramOptions(VariableMap, ModsHomeFlag)) {
+        path ModsHome = ModsHomeResult.value();
 
         #ifndef NO_LOG
             BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::trace) << "Found Mods home: '" << ModsHome.string() <<  "' from program option: '" << ModsHomeFlag <<  "'";
@@ -26,7 +34,7 @@ std::filesystem::path Get(const boost::program_options::variables_map &VariableM
         BOOST_LOG_SEV(DirectoriesLogger,  boost::log::trivial::warning) << "Could not determine Mods home from program options flag: '" << ModsHomeFlag << "'";
     #endif
 
-    std::filesystem::path DataHomeCopy = DataHome;
+    path DataHomeCopy = DataHome;
 
     DataHomeCopy.append("mods/");
 
