@@ -65,7 +65,7 @@ endif()
 if (NOT DEFINED NO_BASE_CONFIG)
     message(STATUS "adding support for voxels::directories::base::config")
     list(APPEND directories_files
-            src/base/state.cpp
+            src/base/config.cpp
     )
 endif()
 
