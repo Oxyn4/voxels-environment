@@ -55,8 +55,8 @@ CMakeUserPresets.json
 *_REMOTE_*.txt
 
 ### Doxygen ###
-html
-latex
+docs/html
+docs/latex
 
 cmake-build-release/
 cmake-build-debug/

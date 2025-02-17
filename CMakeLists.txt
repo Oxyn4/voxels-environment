@@ -20,16 +20,13 @@ set(directories_files
 find_package(Doxygen)
 
 if (DOXYGEN_FOUND)
-    if (DEFINED BUILD_DOCS)
-        add_custom_target(docs ALL
-            COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-            COMMENT "Generating API documentation with Doxygen"
-            VERBATIM
-        )
-    else ()
-        message(STATUS "Found Doxygen but not compiling documentation")
-    endif()
+    message(STATUS "Found doxygen")
+    add_custom_target(docs ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/docs
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM
+    )
 else()
     message(STATUS "Unable to find Doxygen")
 endif ()
