@@ -7,7 +7,7 @@
 // see <https://www.gnu.org/licenses/>.
 
 /**
- * @file accounts.hpp
+ * @file Mods.hpp
  * @author Jacob Evans
  * @brief This header contains definitions for the mods directory related functionality
  */
@@ -20,6 +20,11 @@
 
 #include <boost/log/trivial.hpp>
 
+
+/**
+ * @namespace voxels::directories::voxels::mods
+ * @brief This namespace contains definitions related to the mods directory functionality
+ */
 namespace voxels::directories::voxels::mods
 {
     const std::string ModsHomeFlag = "mods-home";

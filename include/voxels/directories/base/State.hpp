@@ -7,7 +7,7 @@
 // see <https://www.gnu.org/licenses/>.
 
 /**
- * @file Runtime.hpp
+ * @file State.hpp
  * @author Jacob Evans
  * @brief This header contains definitions for the State directory related functionality
  */
@@ -23,13 +23,14 @@
 #include <filesystem>
 
 #include "Errors.hpp"
-
+/**
+ * @namespace voxels::directories::base::state
+ * @brief This namespace contains definitions related to the state base directory functionality
+ */
 namespace voxels::directories::base::state
 {
     const std::string StateHomeFlag = "state-home";
             
     boost::leaf::result<std::filesystem::path>
     Get(const boost::program_options::variables_map &VariableMap) noexcept;
-
-
 }

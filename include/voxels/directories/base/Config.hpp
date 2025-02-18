@@ -26,6 +26,10 @@
 
 #include "Errors.hpp"
 
+/**
+ * @namespace voxels::directories::base::config
+ * @brief This namespace contains definitions related to the config base directory functionality
+ */
 namespace voxels::directories::base::config
 {
     const std::string ConfigHomeFlag = "config-home";

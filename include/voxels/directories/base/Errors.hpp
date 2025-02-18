@@ -9,10 +9,11 @@
 /**
  * @file Errors.hpp
  * @author Jacob Evans
- * @brief This header contains definitions of various error types used within the base directories part of the libary
+ * @brief This header contains definitions of various error types used within the base directories part of the library
  */
 
 #pragma once
+
 
 namespace voxels::directories {
     enum ValidationError {

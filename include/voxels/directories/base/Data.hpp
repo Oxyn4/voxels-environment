@@ -24,6 +24,10 @@
 
 #include <filesystem>
 
+/**
+ * @namespace voxels::directories::base::data
+ * @brief This namespace contains definitions related to the runtime base directory functionality
+ */
 namespace voxels::directories::base::data
 {
     const std::string DataHomeFlag = "data-home";

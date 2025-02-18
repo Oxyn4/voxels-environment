@@ -7,7 +7,7 @@
 // see <https://www.gnu.org/licenses/>.
 
 /**
- * @file accounts.hpp
+ * @file certs.hpp
  * @author Jacob Evans
  * @brief This header contains definitions for the certifications directory related functionality
  */
@@ -21,10 +21,24 @@
 
 #include <boost/log/trivial.hpp>
 
+/**
+ * @namespace voxels::directories::voxels::certs
+ * @brief This namespace contains definitions related to the certifications directory functionality
+ */
 namespace voxels::directories::voxels::certs
 {
+    /**
+     * @var std::string AccountsHomeFlag
+     * @brief Contains the name of the command line flag associated with certification home
+     * @details Used by the library when using command line options in order to find a command line specified certification home
+     */
     const std::string AccountsHomeFlag = "certs-home";
 
-    std::filesystem::path
-    Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path& DataHome) noexcept;
+    /**
+     * Uses several methods to determine a valid certification directory and returns it
+     * @param VariableMap The variable map to use when searching for a valid certification directory
+     * @param DataHome the data home base directory to use when finding certification directory
+     * @return returns the path of certification home
+     */
+    std::filesystem::path Get(const boost::program_options::variables_map &VariableMap, const std::filesystem::path& DataHome) noexcept;
 }

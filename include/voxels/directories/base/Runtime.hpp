@@ -24,6 +24,11 @@
 
 #include <filesystem>
 
+
+/**
+ * @namespace voxels::directories::base::runtime
+ * @brief This namespace contains definitions related to the runtime base directory functionality
+ */
 namespace voxels::directories::base::runtime
 {
     const std::string RuntimeHomeFlag = "runtime-home";

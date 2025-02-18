@@ -7,7 +7,7 @@
 // see <https://www.gnu.org/licenses/>.
 
 /**
- * @file accounts.hpp
+ * @file voxels.hpp
  * @author Jacob Evans
  * @brief This header includes all the other voxels headers
  */

@@ -20,6 +20,11 @@
 
 #include <boost/log/trivial.hpp>
 
+
+/**
+ * @namespace voxels::directories::voxels::accounts
+ * @brief This namespace contains definitions related to the accounts directory functionality
+ */
 namespace voxels::directories::voxels::accounts
 {
     const std::string AccountsHomeFlag = "accounts-home";

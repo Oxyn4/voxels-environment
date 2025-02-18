@@ -7,7 +7,7 @@
 // see <https://www.gnu.org/licenses/>.
 
 /**
- * @file accounts.hpp
+ * @file ModsRuntime.hpp
  * @author Jacob Evans
  * @brief This header contains definitions for the mods runtime directory related functionality
  */
@@ -20,6 +20,11 @@
 
 #include <boost/log/trivial.hpp>
 
+
+/**
+ * @namespace voxels::directories::voxels::mods_runtime
+ * @brief This namespace contains definitions related to the mods runtime directory functionality
+ */
 namespace voxels::directories::voxels::mods_runtime
 {
     const std::string ModsRuntimeFlag = "mods-runtime";

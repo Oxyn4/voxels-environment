@@ -7,7 +7,7 @@
 // see <https://www.gnu.org/licenses/>.
 
 /**
- * @file accounts.hpp
+ * @file Logs.hpp
  * @author Jacob Evans
  * @brief This header contains definitions for the logs directory related functionality
  */
@@ -20,6 +20,10 @@
 
 #include <boost/log/trivial.hpp>
 
+/**
+ * @namespace voxels::directories::voxels::logs
+ * @brief This namespace contains definitions related to the logs directory functionality
+ */
 namespace voxels::directories::voxels::logs
 {
     const std::string AccountsHomeFlag = "logs-home";
