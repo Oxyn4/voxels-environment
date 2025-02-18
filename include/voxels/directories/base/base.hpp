@@ -6,6 +6,12 @@
 // You should have received a copy of the GNU General Public License along with the voxels environment library. If not,
 // see <https://www.gnu.org/licenses/>.
 
+/**
+ * @file base.hpp
+ * @author Jacob Evans
+ * @brief A header which includes all other headers related to the base directories functionality.
+ */
+
 #pragma once
 
 #include "Runtime.hpp"

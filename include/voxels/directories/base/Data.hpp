@@ -6,6 +6,12 @@
 // You should have received a copy of the GNU General Public License along with the voxels environment library. If not,
 // see <https://www.gnu.org/licenses/>.
 
+/**
+ * @file Data.hpp
+ * @author Jacob Evans
+ * @brief This header contains definitions for the data directory related functionality
+ */
+
 #pragma once
 
 #include "Errors.hpp"

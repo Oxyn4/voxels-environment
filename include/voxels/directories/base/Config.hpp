@@ -6,6 +6,12 @@
 // You should have received a copy of the GNU General Public License along with the voxels environment library. If not,
 // see <https://www.gnu.org/licenses/>.
 
+/**
+ * @file Config.hpp
+ * @author Jacob Evans
+ * @brief This header contains definitions for the config directory related functionality
+ */
+
 #pragma once
 
 #include <boost/leaf.hpp>

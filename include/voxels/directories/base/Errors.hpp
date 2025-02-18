@@ -6,6 +6,12 @@
 // You should have received a copy of the GNU General Public License along with the voxels environment library. If not,
 // see <https://www.gnu.org/licenses/>.
 
+/**
+ * @file Errors.hpp
+ * @author Jacob Evans
+ * @brief This header contains definitions of various error types used within the base directories part of the libary
+ */
+
 #pragma once
 
 namespace voxels::directories {
